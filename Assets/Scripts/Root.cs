@@ -15,13 +15,13 @@ public class Root : MonoBehaviour
     public GameObject PlayerPrefab;
     public Camera MainCamera;
 
-    public MonsterObjectInfo[] MonsterInfos;
+    public MonsterPrefabDatabase MonsterInfos;
 
     public GameObject HealthBar;
     public GameObject ManaBar;
 
-    public SkillView[] SelectedSkills = new SkillView[4];
-    public SkillObjectInfo[] SkillInfos;
+    public SkillView[] SelectedSkills { get; } = new SkillView[4];
+    public SkillPrefabDatabase SkillInfos;
     public IReadOnlyCollection<SkillView> AllSkills { get; private set; }
 
     private Game mGame;
@@ -52,12 +52,12 @@ public class Root : MonoBehaviour
         AllSkills = skills.AsReadOnly();
     }
 
-    private void GenerateViewsByInfo<TModel>(Transform parent, IEnumerable<ObjectInfo> infos, IEnumerable<TModel> models, Action<BaseView> created = null) where TModel : class
+    private void GenerateViewsByInfo<TModel>(Transform parent, PrefabDatabase infos, IEnumerable<TModel> models, Action<BaseView> created = null) where TModel : class
     {
-        var infoCache = infos.ToDictionary(i => Type.GetType(i.ObjectType), i => i.Prefab);
         foreach (var m in models)
         {
-            if (infoCache.TryGetValue(m.GetType(), out var prefab))
+            var prefab = infos[m.GetType().AssemblyQualifiedName];
+            if (prefab != null)
             {
                 var inst = Instantiate(prefab);
                 inst.transform.SetParent(parent);

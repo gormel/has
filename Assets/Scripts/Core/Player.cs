@@ -19,17 +19,21 @@ namespace Assets.Scripts.Core
         public int KillCount { get; private set; }
         public int NextLevelKillCount { get; private set; } = 5;
         public int SkillPoints { get; private set; }
-        public float Mana { get; private set; } = 100;
+        public float Mana { get; internal set; } = 100;
         public Parameter MaxMana { get; private set; } = new Parameter(100);
+        public Parameter ManaRegen { get; private set; } = new Parameter(0.5f);
         public event EventHandler Destroyed;
 
         public List<Skill> KnownSkills { get; } = new List<Skill>();
 
         private Stopwatch mAttackCooldown = Stopwatch.StartNew();
 
-        public Player(Game game)
+        public Player(Game game, Vector2 spawnPoint)
         {
             mGame = game;
+            Position = spawnPoint;
+
+            KnownSkills.Add(mGame.AllSkills[0]);
         }
 
         public override void OnDestroy()
@@ -53,6 +57,8 @@ namespace Assets.Scripts.Core
                 collided = mGame.CheckMonsterCollision(collided);
                 Position = new Vector2(collided.xMin, collided.yMin);
             }
+
+            Mana = Mathf.Min(Mana + ManaRegen.Value * (float)deltaTime.TotalSeconds, MaxMana.Value);
         }
 
         public bool LearnSkill(Skill skill)

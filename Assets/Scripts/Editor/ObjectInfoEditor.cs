@@ -3,19 +3,24 @@ using Assets.Scripts.View.Common;
 using System.Linq;
 using Assets.Scripts.Core.Static;
 using System;
+using System.Collections.Generic;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 
 public abstract class ObjectInfoEditor : Editor
 {
-    SerializedProperty mTypeProperty;
-    SerializedProperty mPrefabProperty;
-    Type[] mTypes;
+    private SerializedProperty mPairsProperty;
+    private string[] mTypes;
 
     private void OnEnable()
     {
-        mTypeProperty = serializedObject.FindProperty(nameof(ObjectInfo.ObjectType));
-        mPrefabProperty = serializedObject.FindProperty(nameof(ObjectInfo.Prefab));
-        mTypes = GetBaseObjectType().Assembly.GetTypes().Where(t => GetBaseObjectType().IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();
+        mPairsProperty = serializedObject.FindProperty(nameof(PrefabDatabase.Pairs));
+        mTypes = GetBaseObjectType().Assembly.GetTypes()
+            .Where(t => GetBaseObjectType().IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
+            .Select(t => t.AssemblyQualifiedName)
+            .ToArray();
     }
+
 
     protected abstract Type GetBaseObjectType();
 
@@ -23,12 +28,35 @@ public abstract class ObjectInfoEditor : Editor
     {
         serializedObject.Update();
 
-        var currentIndex = Array.FindIndex(mTypes, t => t.AssemblyQualifiedName == mTypeProperty.stringValue);
-        var newIndex = EditorGUILayout.Popup(currentIndex, mTypes.Select(t => t.Name).ToArray());
-        if (newIndex >= 0)
-            mTypeProperty.stringValue = mTypes[newIndex].AssemblyQualifiedName;
+        var unUsedTypes = new List<string>(mTypes);
+        for (int i = 0; i < mPairsProperty.arraySize; i++)
+        {
+            var elem = mPairsProperty.GetArrayElementAtIndex(i);
+            var typeProperty = elem.FindPropertyRelative(nameof(PrefabDatabasePair.ObjectType));
+            var refProperty = elem.FindPropertyRelative(nameof(PrefabDatabasePair.Prefab));
 
-        EditorGUILayout.PropertyField(mPrefabProperty);
+            if (typeProperty == null)
+            {
+                mPairsProperty.DeleteArrayElementAtIndex(i--);
+                continue;
+            }
+
+            if (!unUsedTypes.Remove(typeProperty.stringValue))
+            {
+                mPairsProperty.DeleteArrayElementAtIndex(i--);
+                continue;
+            }
+            var type = Type.GetType(typeProperty.stringValue);
+            EditorGUILayout.PropertyField(refProperty, new GUIContent(type.Name));
+        }
+
+        foreach (var unUsedType in unUsedTypes)
+        {
+            mPairsProperty.InsertArrayElementAtIndex(0);
+            var elem = mPairsProperty.GetArrayElementAtIndex(0);
+            var typeProperty = elem.FindPropertyRelative(nameof(PrefabDatabasePair.ObjectType));
+            typeProperty.stringValue = unUsedType;
+        }
 
         serializedObject.ApplyModifiedProperties();
     }

@@ -22,14 +22,12 @@ namespace Assets.Scripts.Core
             Map = new Map();
             //generate map
 
-            Player = new Player(this);
-            for (int i = 0; i < 15; i++)
-            {
-                var x = UnityEngine.Random.Range(0, Map.Width);
-                var y = UnityEngine.Random.Range(0, Map.Height);
+            AllSkills.Add(new FireArrow(this));
 
-                Monsters.Add(new Monster(this, new Vector2(x, y)));
-            }
+            Player = new Player(this, Map.SpawnPoint);
+
+            for (int i = 0; i < 15; i++)
+                Monsters.Add(new Monster(this, Map.GetRandomFreeLocation()));
         }
 
         public Rect CheckMonsterCollision(Rect source, params Monster[] skip)

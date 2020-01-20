@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Assets.Scripts.Core.Skills;
 using Assets.Scripts.Core;
+using Assets.Scripts.GUI.Skill;
 using Assets.Scripts.View.Skills;
 
 public class SkillSelectionPanel : MonoBehaviour
@@ -10,6 +11,7 @@ public class SkillSelectionPanel : MonoBehaviour
     public GameObject ButtonsRoot;
     public GameObject SubmitButtonPrefab;
     public Root Root;
+    public SkillIcons IconDatabase;
     public SkillView SelectedSkill { get; private set; }
 
     private bool mSkillSubmited;
@@ -17,13 +19,18 @@ public class SkillSelectionPanel : MonoBehaviour
     public IEnumerator SelectSkill()
     {
         while (ButtonsRoot.transform.childCount > 0)
-            Destroy(ButtonsRoot.transform.GetChild(0).gameObject);
+        {
+            var go = ButtonsRoot.transform.GetChild(0).gameObject;
+            go.transform.SetParent(null);
+            Destroy(go);
+        }
 
         foreach (var skill in Root.PlayerView.Model<Player>().KnownSkills)
         {
             var buttonInst = Instantiate(SubmitButtonPrefab);
             buttonInst.transform.SetParent(ButtonsRoot.transform);
             var submitButton = buttonInst.GetComponent<SkillSubmitButton>();
+            submitButton.IconTarget.sprite = IconDatabase.GetIcon(skill);
             submitButton.Panel = this;
             submitButton.Skill = Root.AllSkills.FirstOrDefault(view => view.Model<Skill>() == skill);
         }
@@ -33,7 +40,6 @@ public class SkillSelectionPanel : MonoBehaviour
         gameObject.SetActive(true);
         yield return new WaitUntil(() => mSkillSubmited);
         gameObject.SetActive(false);
-        yield return null;
     }
 
     public void SubmitSkill(SkillView skill)

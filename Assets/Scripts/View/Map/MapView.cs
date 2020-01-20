@@ -15,7 +15,7 @@ namespace Assets.Scripts.View.Common
         public GameObject Skills;
 
         public SpriteRenderer Background;
-        public MapObjectInfo[] ObjectInfos;
+        public MapObjectPrefabDatabase ObjectInfos;
 
         private Map mMap;
 
@@ -26,21 +26,24 @@ namespace Assets.Scripts.View.Common
             var width = map.StaticObjects.GetLength(0);
             var height = map.StaticObjects.GetLength(1);
             Background.size = new Vector2(width, height);
-            Background.transform.localPosition = new Vector3(width / 2 - 0.5f, height / 2 - 0.5f);
+            Background.transform.localPosition = new Vector3(width / 2f, height / 2f);
 
-            var infoCache = ObjectInfos.ToDictionary(i => Type.GetType(i.ObjectType), i => i.Prefab);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < width; y++)
                 {
                     var obj = map.StaticObjects[x, y];
-                    if (obj != null && infoCache.TryGetValue(obj.GetType(), out var prefab))
+                    if (obj != null)
                     {
-                        var inst = Instantiate(prefab);
-                        inst.transform.SetParent(Static.transform);
-                        inst.transform.localPosition = new Vector3(x, y, 0);
-                        var view = inst.GetComponentInChildren<BaseView>();
-                        view.Load(obj, root);
+                        var prefab = ObjectInfos[obj.GetType().AssemblyQualifiedName];
+                        if (prefab != null)
+                        {
+                            var inst = Instantiate(prefab);
+                            inst.transform.SetParent(Static.transform);
+                            inst.transform.localPosition = new Vector3(x, y, 0);
+                            var view = inst.GetComponentInChildren<BaseView>();
+                            view.Load(obj, root);
+                        }
                     }
                 }
             }

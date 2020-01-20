@@ -30,6 +30,7 @@ namespace Assets.Scripts.View
             mRoot = root;
 
             mPlayer.Destroyed += Player_Destroyed;
+            transform.localScale = mPlayer.Size;
         }
 
         private void Player_Destroyed(object sender, EventArgs e)
@@ -45,7 +46,7 @@ namespace Assets.Scripts.View
 
             if (Input.GetMouseButton((int)MouseButton.RightMouse))
             {
-                mPlayer.SetMoveDirection(Input.mousePosition - new Vector3(Screen.width / 2, Screen.height / 2));
+                mPlayer.SetMoveDirection(Input.mousePosition - new Vector3(Screen.width / 2f, Screen.height / 2f));
                 Stand.Enabled = false;
                 Move.Enabled = !Attack.Enabled;
                 Move.Direction = mPlayer.Direction;
@@ -77,7 +78,9 @@ namespace Assets.Scripts.View
             {
                 if (Input.GetKeyDown(SkillKeys[i]))
                 {
-                    mRoot.SelectedSkills[i].Model<Skill>().Use(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    var skill = mRoot.SelectedSkills[i]?.Model<Skill>();
+                    if (skill != null)
+                        skill.Use(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 }
             }
 

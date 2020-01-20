@@ -13,6 +13,8 @@ namespace Assets.Scripts.Core.Skills
         public float Cost { get; protected set; }
         public TimeSpan Cooldown { get; protected set; }
 
+        public abstract float CooldownPercent { get; }
+
         public Skill(Game game)
         {
             Game = game;
