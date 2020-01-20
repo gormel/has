@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Skills;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,17 +16,17 @@ namespace Assets.Scripts.View
     public class PlayerView : BaseView
     {
         private Player mPlayer;
-        private MapView mMapView;
         private Root mRoot;
 
         public DirectionSelector Move;
         public DirectionSelector Stand;
         public DirectionSelector Attack;
 
+        public KeyCode[] SkillKeys;
+
         public override void Load<T>(T model, Root root)
         {
             mPlayer = model as Player;
-            mMapView = root.MapView;
             mRoot = root;
 
             mPlayer.Destroyed += Player_Destroyed;
@@ -40,7 +41,6 @@ namespace Assets.Scripts.View
         void Update()
         {
             mPlayer.Update(TimeSpan.FromSeconds(Time.deltaTime));
-
             transform.localPosition = mPlayer.Position;
 
             if (Input.GetMouseButton((int)MouseButton.RightMouse))
@@ -70,6 +70,14 @@ namespace Assets.Scripts.View
                     {
                         ProcessMonsterClick(view.Model<Monster>());
                     }
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (Input.GetKeyDown(SkillKeys[i]))
+                {
+                    mRoot.SelectedSkills[i].Model<Skill>().Use(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 }
             }
 

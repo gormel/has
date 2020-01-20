@@ -2,11 +2,12 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using Assets.Scripts.Core.Skills;
+using Assets.Scripts.View.Skills;
 
 public class SkillSubmitButton : MonoBehaviour, IPointerDownHandler
 {
     public SkillSelectionPanel Panel;
-    public Skill Skill;
+    public SkillView Skill;
 
     public void OnPointerDown(PointerEventData eventData)
     {

@@ -9,9 +9,17 @@ namespace Assets.Scripts.Core.Skills
 {
     public abstract class Skill
     {
+        protected Game Game { get; }
         public float Cost { get; protected set; }
         public TimeSpan Cooldown { get; protected set; }
 
-        public abstract bool Use(Game game, Vector2 pointer);
+        public Skill(Game game)
+        {
+            Game = game;
+        }
+
+        public abstract bool Use(Vector2 pointer);
+
+        public abstract void Update(TimeSpan deltaTime);
     }
 }

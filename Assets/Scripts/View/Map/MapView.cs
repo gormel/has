@@ -10,6 +10,10 @@ namespace Assets.Scripts.View.Common
 {
     public class MapView : BaseView
     {
+        public GameObject Static;
+        public GameObject Monsters;
+        public GameObject Skills;
+
         public SpriteRenderer Background;
         public MapObjectInfo[] ObjectInfos;
 
@@ -33,7 +37,7 @@ namespace Assets.Scripts.View.Common
                     if (obj != null && infoCache.TryGetValue(obj.GetType(), out var prefab))
                     {
                         var inst = Instantiate(prefab);
-                        inst.transform.SetParent(transform);
+                        inst.transform.SetParent(Static.transform);
                         inst.transform.localPosition = new Vector3(x, y, 0);
                         var view = inst.GetComponentInChildren<BaseView>();
                         view.Load(obj, root);

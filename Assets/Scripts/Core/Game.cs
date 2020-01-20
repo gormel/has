@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Skills;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Core
         public Map Map { get; private set; }
         public Player Player { get; private set; }
         public List<Monster> Monsters { get; private set; } = new List<Monster>();//quad tree
+        public List<Skill> AllSkills { get; private set; } = new List<Skill>();
 
         public Game()
         {
@@ -44,11 +46,16 @@ namespace Assets.Scripts.Core
             return source;
         }
 
-        public void Attack(Character source, Character target)
+        public void TakeDamage(float damage, Character target)
         {
-            target.Health -= source.Attack.Value;
+            target.Health -= damage;
             if (target.Health <= 0)
                 target.OnDestroy();
+        }
+
+        public void Attack(Character source, Character target)
+        {
+            TakeDamage(source.Attack.Value, target);
         }
     }
 }

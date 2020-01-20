@@ -6,6 +6,7 @@ using Assets.Scripts.View.NPC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.View.Skills;
 using UnityEngine;
 
 public class Root : MonoBehaviour
@@ -19,7 +20,9 @@ public class Root : MonoBehaviour
     public GameObject HealthBar;
     public GameObject ManaBar;
 
-    public Skill[] SelectedSkills = new Skill[4];
+    public SkillView[] SelectedSkills = new SkillView[4];
+    public SkillObjectInfo[] SkillInfos;
+    public IReadOnlyCollection<SkillView> AllSkills { get; private set; }
 
     private Game mGame;
 
@@ -43,10 +46,13 @@ public class Root : MonoBehaviour
         PlayerView = playerInst.GetComponentInChildren<PlayerView>();
         PlayerView.Load(mGame.Player, this);
 
-        GenerateViewsByInfo(MapView.transform, MonsterInfos, mGame.Monsters);
+        GenerateViewsByInfo(MapView.Monsters.transform, MonsterInfos, mGame.Monsters);
+        var skills = new List<SkillView>();
+        GenerateViewsByInfo(MapView.Skills.transform, SkillInfos, mGame.AllSkills, view => skills.Add(view as SkillView));
+        AllSkills = skills.AsReadOnly();
     }
 
-    private void GenerateViewsByInfo<TModel>(Transform parent, IEnumerable<ObjectInfo> infos, IEnumerable<TModel> models) where TModel : class
+    private void GenerateViewsByInfo<TModel>(Transform parent, IEnumerable<ObjectInfo> infos, IEnumerable<TModel> models, Action<BaseView> created = null) where TModel : class
     {
         var infoCache = infos.ToDictionary(i => Type.GetType(i.ObjectType), i => i.Prefab);
         foreach (var m in models)
@@ -58,6 +64,8 @@ public class Root : MonoBehaviour
 
                 var view = inst.GetComponentInChildren<BaseView>();
                 view.Load(m, this);
+
+                created?.Invoke(view);
             }
         }
     }

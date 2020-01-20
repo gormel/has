@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using Assets.Scripts.Core.Skills;
 using Assets.Scripts.Core;
+using Assets.Scripts.View.Skills;
 
 public class SkillSelectionPanel : MonoBehaviour
 {
     public GameObject ButtonsRoot;
     public GameObject SubmitButtonPrefab;
     public Root Root;
-    public Skill SelectedSkill { get; private set; }
+    public SkillView SelectedSkill { get; private set; }
 
     private bool mSkillSubmited;
 
@@ -23,7 +25,7 @@ public class SkillSelectionPanel : MonoBehaviour
             buttonInst.transform.SetParent(ButtonsRoot.transform);
             var submitButton = buttonInst.GetComponent<SkillSubmitButton>();
             submitButton.Panel = this;
-            submitButton.Skill = skill;
+            submitButton.Skill = Root.AllSkills.FirstOrDefault(view => view.Model<Skill>() == skill);
         }
 
         SelectedSkill = null;
@@ -34,7 +36,7 @@ public class SkillSelectionPanel : MonoBehaviour
         yield return null;
     }
 
-    public void SubmitSkill(Skill skill)
+    public void SubmitSkill(SkillView skill)
     {
         SelectedSkill = skill;
         mSkillSubmited = true;
