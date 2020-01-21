@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Core.Skills;
 using Assets.Scripts.Core;
@@ -16,7 +17,7 @@ public class SkillSelectionPanel : MonoBehaviour
 
     private bool mSkillSubmited;
 
-    public IEnumerator SelectSkill()
+    public IEnumerator SelectSkill(IEnumerable<Skill> skills)
     {
         while (ButtonsRoot.transform.childCount > 0)
         {
@@ -25,7 +26,7 @@ public class SkillSelectionPanel : MonoBehaviour
             Destroy(go);
         }
 
-        foreach (var skill in Root.PlayerView.Model<Player>().KnownSkills)
+        foreach (var skill in skills)
         {
             var buttonInst = Instantiate(SubmitButtonPrefab);
             buttonInst.transform.SetParent(ButtonsRoot.transform);

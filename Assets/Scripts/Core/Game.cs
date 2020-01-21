@@ -22,7 +22,7 @@ namespace Assets.Scripts.Core
             Map = new Map();
             //generate map
 
-            AllSkills.Add(new FireArrow(this));
+            AllSkills.Add(new FireArrow(this));//auto fill by types
 
             Player = new Player(this, Map.SpawnPoint);
 

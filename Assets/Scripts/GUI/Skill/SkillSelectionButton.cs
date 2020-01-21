@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Assets.Scripts.Core;
 using Assets.Scripts.Core.Skills;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,7 +26,7 @@ public class SkillSelectionButton : MonoBehaviour, IPointerDownHandler
 
     private IEnumerator OnClick()
     {
-        yield return StartCoroutine(Panel.SelectSkill());
+        yield return StartCoroutine(Panel.SelectSkill(Root.PlayerView.Model<Player>().KnownSkills));
         if (Panel.SelectedSkill != null)
         {
             Root.SelectedSkills[SkillSlot] = Panel.SelectedSkill;

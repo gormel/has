@@ -32,8 +32,6 @@ namespace Assets.Scripts.Core
         {
             mGame = game;
             Position = spawnPoint;
-
-            KnownSkills.Add(mGame.AllSkills[0]);
         }
 
         public override void OnDestroy()
