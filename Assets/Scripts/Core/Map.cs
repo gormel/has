@@ -20,7 +20,7 @@ namespace Assets.Scripts.Core
 
         public Vector2Int SpawnPoint { get; }
 
-        public Map()
+        public Map(Game game)
         {
             StaticObjects = new MapObject[50, 50];
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Core
 
             //crete rooms
             var rooms = 10;
-            var roomCenters = new Vector2Int[rooms];
+            var roomCenters = new List<Vector2Int>(new Vector2Int[rooms]);
             for (int i = 0; i < rooms; i++)
             {
                 var x = Random.Range(0, Width);
@@ -72,6 +72,19 @@ namespace Assets.Scripts.Core
                 }
             }
 
+            //fix border
+            for (int x = 0; x < Width; x++)
+            {
+                mask[x, 0] = false;
+                mask[x, Height - 1] = false;
+            }
+
+            for (int y = 0; y < Height; y++)
+            {
+                mask[0, y] = false;
+                mask[Width - 1, y] = false;
+            }
+
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
@@ -80,7 +93,13 @@ namespace Assets.Scripts.Core
                 }
             }
 
-            SpawnPoint = GetRandomFreeLocation();
+            var spawnRoomIndex = Random.Range(0, roomCenters.Count);
+            SpawnPoint = roomCenters[spawnRoomIndex];
+            roomCenters.RemoveAt(spawnRoomIndex);
+            var exitIndex = Random.Range(0, roomCenters.Count);
+            var exitX = Math.Max(0, Math.Min(Width - 1, roomCenters[exitIndex].x));
+            var exitY = Math.Max(0, Math.Min(Height - 1, roomCenters[exitIndex].y));
+            StaticObjects[exitX, exitY] = new Exit(game);
         }
 
         private MapObject GetStaticObjectType(bool[,] mask, int x, int y)

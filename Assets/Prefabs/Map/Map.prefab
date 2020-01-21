@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pairs:
+  - ObjectType: Assets.Scripts.Core.Static.Exit, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    Prefab: {fileID: 366276493556934890, guid: e71c1b587cd331b4980e3593f7f977d2, type: 3}
   - ObjectType: Assets.Scripts.Core.Static.Wall, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     Prefab: {fileID: 5553129967097806265, guid: bc38ffede281b3849befb9d6fbc63ce3,
@@ -199,15 +202,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1808640149
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: db2c76cd7b4c64847ac95f5f5cbabb72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 7.0747766, y: 1.8}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.426
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

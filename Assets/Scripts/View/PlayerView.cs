@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Core.Skills;
+using Assets.Scripts.Core.Static;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -64,15 +65,18 @@ namespace Assets.Scripts.View
             if (Input.GetMouseButton((int)MouseButton.LeftMouse))
             {
                 var m = Input.mousePosition;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(m), out var hit))
+                var ray = Camera.main.ScreenPointToRay(m);
+                if (Physics.Raycast(ray, out var hit))
                 {
                     var view = hit.collider.gameObject.GetComponentInChildren<BaseView>();
                     if (view != null)
                     {
                         ProcessMonsterClick(view.Model<Monster>());
+                        ProcessStaticClick(view.Model<MapObject>(), Camera.main.ScreenToWorldPoint(m));
                     }
                 }
             }
+
 
             for (int i = 0; i < 4; i++)
             {
@@ -105,6 +109,18 @@ namespace Assets.Scripts.View
             {
                 StartCoroutine(AnimateAttack(m.Position - mPlayer.Position));
             }
+        }
+
+        private void ProcessStaticClick(MapObject obj, Vector2 pointer)
+        {
+            if (obj == null)
+                return;
+
+            if (!obj.IsInteractive)
+                return;
+
+            if (Vector2.Distance(pointer, mPlayer.Position) < 1.2f)
+                obj.InteractFrom(mPlayer);
         }
 
         public override T Model<T>()

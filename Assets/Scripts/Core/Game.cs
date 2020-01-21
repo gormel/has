@@ -17,12 +17,14 @@ namespace Assets.Scripts.Core
         public List<Monster> Monsters { get; private set; } = new List<Monster>();//quad tree
         public List<Skill> AllSkills { get; private set; } = new List<Skill>();
 
+        public event EventHandler LevelComplete;
+
         public Game()
         {
-            Map = new Map();
-            //generate map
+            Map = new Map(this);
 
-            AllSkills.Add(new FireArrow(this));//auto fill by types
+            foreach (var type in typeof(Skill).Assembly.GetTypes().Where(t => typeof(Skill).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface))
+                AllSkills.Add((Skill)Activator.CreateInstance(type, this));
 
             Player = new Player(this, Map.SpawnPoint);
 
@@ -44,16 +46,29 @@ namespace Assets.Scripts.Core
             return source;
         }
 
-        public void TakeDamage(float damage, Character target)
+        public void TakeDamage(Character source, float damage, Character target)
         {
             target.Health -= damage;
             if (target.Health <= 0)
+            {
                 target.OnDestroy();
+                source.OnKill(target);
+            }
+        }
+
+        public Monster QueryMonster(Vector2 point)
+        {
+            return Monsters.FirstOrDefault(m => m.Bounds.Contains(point));
         }
 
         public void Attack(Character source, Character target)
         {
-            TakeDamage(source.Attack.Value, target);
+            TakeDamage(source, source.Attack.Value, target);
+        }
+
+        public void CompleteLevel()
+        {
+            LevelComplete?.Invoke(this, EventArgs.Empty);
         }
     }
 }

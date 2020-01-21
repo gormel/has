@@ -23,5 +23,6 @@ namespace Assets.Scripts.Core.Common
         public Parameter AttackRate { get; } = new Parameter(1);//hit per sec
 
         public abstract void OnDestroy();
+        public virtual void OnKill(Character target) { }
     }
 }

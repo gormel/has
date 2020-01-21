@@ -27,5 +27,12 @@ namespace Assets.Scripts.Core.Common
             var ty = Math.Max((c.y - rect.yMin) / dir.y, (c.y - rect.yMax) / dir.y);
             return Math.Min(tx, ty);
         }
+
+        public static float DistanceToRect(Vector2 point, Rect rect)
+        {
+            var dx = Mathf.Max(rect.min.x - point.x, 0, point.x - rect.max.x);
+            var dy = Mathf.Max(rect.min.y - point.y, 0, point.y - rect.max.y);
+            return Mathf.Sqrt(dx * dx + dy * dy);
+        }
     }
 }

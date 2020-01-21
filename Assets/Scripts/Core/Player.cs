@@ -67,7 +67,8 @@ namespace Assets.Scripts.Core
             if (KnownSkills.Contains(skill))
                 return false;
 
-            //check requarements
+            if (!SkillRequarements.Check(skill, this))
+                return false;
 
             SkillPoints--;
             KnownSkills.Add(skill);
@@ -84,19 +85,19 @@ namespace Assets.Scripts.Core
 
             mAttackCooldown = Stopwatch.StartNew();
             mGame.Attack(this, m);
-
-            if (m.Health <= 0)
-            {
-                KillCount++;
-                if (KillCount >= NextLevelKillCount)
-                {
-                    KillCount = 0;
-                    SkillPoints++;
-                    NextLevelKillCount = (int)(NextLevelKillCount * 1.5);
-                }
-            }
-
+            
             return true;
+        }
+
+        public override void OnKill(Character target)
+        {
+            KillCount++;
+            if (KillCount >= NextLevelKillCount)
+            {
+                KillCount = 0;
+                SkillPoints++;
+                NextLevelKillCount = (int)(NextLevelKillCount * 1.5);
+            }
         }
     }
 }

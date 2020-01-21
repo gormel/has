@@ -17,7 +17,11 @@ public class LearnSkillButton : MonoBehaviour, IPointerDownHandler
 
     private IEnumerator OnClick()
     {
-        yield return StartCoroutine(Panel.SelectSkill(Root.AllSkills.Select(v => v.Model<Skill>())));
+        yield return StartCoroutine(Panel.SelectSkill(Root.AllSkills
+            .Select(v => v.Model<Skill>())
+            .Where(s => SkillRequarements.Check(s, Root.PlayerView.Model<Player>()))
+            .Except(Root.PlayerView.Model<Player>().KnownSkills)));
+
         if (Panel.SelectedSkill != null)
             Root.PlayerView.Model<Player>().LearnSkill(Panel.SelectedSkill.Model<Skill>());
     }

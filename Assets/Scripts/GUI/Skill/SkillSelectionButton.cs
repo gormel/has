@@ -13,6 +13,7 @@ public class SkillSelectionButton : MonoBehaviour, IPointerDownHandler
     public Image IconTarget;
     public Sprite EmptyIcon;
     public Image CooldownIndicator;
+    public Text BindingKey;
 
     void Start()
     {
@@ -41,5 +42,7 @@ public class SkillSelectionButton : MonoBehaviour, IPointerDownHandler
         {
             CooldownIndicator.fillAmount = 1 - skill.CooldownPercent;
         }
+
+        BindingKey.text = Root.PlayerView.SkillKeys[SkillSlot].ToString();
     }
 }

@@ -8,8 +8,6 @@ namespace Assets.Scripts.View.NPC
 {
     public class MonsterView : BaseView
     {
-        public GameObject Highlight;
-
         Monster mMonster;
 
         public override void Load<T>(T model, Root root)
@@ -35,16 +33,6 @@ namespace Assets.Scripts.View.NPC
             mMonster.Update(TimeSpan.FromSeconds(Time.deltaTime));
 
             transform.localPosition = mMonster.Position;
-        }
-
-        void OnMouseOver()
-        {
-            Highlight.SetActive(true);
-        }
-
-        void OnMouseExit()
-        {
-            Highlight.SetActive(false);
         }
     }
 }

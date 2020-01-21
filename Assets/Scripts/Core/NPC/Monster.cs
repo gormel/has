@@ -26,7 +26,9 @@ namespace Assets.Scripts.Core.NPC
             mGame = game;
             Position = position;
 
-            Attack.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 5));
+            Attack.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 3.4f));
+            MaxHealth.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 60));
+            Health = MaxHealth.Value;
         }
 
         public void Update(TimeSpan deltaTime)

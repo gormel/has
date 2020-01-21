@@ -28,7 +28,7 @@ namespace Assets.Scripts.Core.Skills
                 Direction = (target.Position - Position).normalized;
             }
 
-            internal bool Upadte(TimeSpan deltaTime)
+            internal bool Update(TimeSpan deltaTime)
             {
                 Direction = (mTarget.Bounds.center - Position).normalized;
                 Position += Direction * mSkill.ArrowSpeed * (float)deltaTime.TotalSeconds;
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Core.Skills
                 var monster = mSkill.Game.Monsters.FirstOrDefault(m => m.Bounds.Contains(Position));
                 if (monster != null)
                 {
-                    mSkill.Game.TakeDamage(mSkill.Damage, monster);
+                    mSkill.Game.TakeDamage(mSkill.Game.Player, mSkill.Damage * mSkill.Game.Player.SkillDamage.Value, monster);
                     return true;
                 }
 
@@ -57,7 +57,6 @@ namespace Assets.Scripts.Core.Skills
             }
         }
 
-        private Stopwatch mCooldownTimer = Stopwatch.StartNew();
         public float ArrowSpeed { get; }
         public float Damage { get; } = 50;
         public List<Bullet> Bullets { get; } = new List<Bullet>();
@@ -70,29 +69,19 @@ namespace Assets.Scripts.Core.Skills
             ArrowSpeed = 6;
         }
 
-        public override float CooldownPercent => Mathf.Min(1, (float)(mCooldownTimer.Elapsed.TotalSeconds / Cooldown.TotalSeconds));
-
-        public override bool Use(Vector2 pointer)
+        protected override bool UseInner(Vector2 pointer)
         {
-            var target = Game.Monsters.FirstOrDefault(m => m.Bounds.Contains(pointer));
+            var target = Game.QueryMonster(pointer);
             if (target == null)
                 return false;
 
-            if (mCooldownTimer.Elapsed < Cooldown)
-                return false;
-
-            if (Game.Player.Mana < Cost)
-                return false;
-
-            mCooldownTimer = Stopwatch.StartNew();
-            Game.Player.Mana -= Cost;
             Bullets.Add(new Bullet(this, target));
             return true;
         }
 
         public override void Update(TimeSpan deltaTime)
         {
-            Bullets.RemoveAll(b => b.Upadte(deltaTime));
+            Bullets.RemoveAll(b => b.Update(deltaTime));
         }
     }
 }
