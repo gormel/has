@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d407ddb7c2f676b4099ec9df83c73a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChargePrefab: {fileID: 5732971839003322904, guid: 6c3fd2e588fb8d64d99eb6be1eeef661,
+  ParticlePrefab: {fileID: 5732971839003322904, guid: 6c3fd2e588fb8d64d99eb6be1eeef661,
     type: 3}

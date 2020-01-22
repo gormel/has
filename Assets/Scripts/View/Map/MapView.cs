@@ -13,6 +13,7 @@ namespace Assets.Scripts.View.Common
         public GameObject Static;
         public GameObject Monsters;
         public GameObject Skills;
+        public GameObject Items;
 
         public SpriteRenderer Background;
         public MapObjectPrefabDatabase ObjectInfos;

@@ -24,7 +24,7 @@ namespace Assets.Scripts.Core.Skills
 
             public override bool Check(Player player)
             {
-                return player.KnownSkills.Any(s => s.GetType() == mRequaeredSkillType);
+                return player.KnownSkills.Any(s => s.Skill.GetType() == mRequaeredSkillType);
             }
         }
 

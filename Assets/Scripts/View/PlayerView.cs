@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Items.Base;
 using Assets.Scripts.Core.Skills;
 using Assets.Scripts.Core.Static;
 using UnityEngine;
@@ -73,6 +74,7 @@ namespace Assets.Scripts.View
                     {
                         ProcessMonsterClick(view.Model<Monster>());
                         ProcessStaticClick(view.Model<MapObject>(), Camera.main.ScreenToWorldPoint(m));
+                        ProcessItemClick(view.Model<Item>(), Camera.main.ScreenToWorldPoint(m));
                     }
                 }
             }
@@ -82,7 +84,7 @@ namespace Assets.Scripts.View
             {
                 if (Input.GetKeyDown(SkillKeys[i]))
                 {
-                    var skill = mRoot.SelectedSkills[i]?.Model<Skill>();
+                    var skill = mRoot.PlayerView.Model<Player>().SelectedSkills[i]?.Skill;
                     if (skill != null)
                         skill.Use(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 }
@@ -121,6 +123,15 @@ namespace Assets.Scripts.View
 
             if (Vector2.Distance(pointer, mPlayer.Position) < 1.2f)
                 obj.InteractFrom(mPlayer);
+        }
+
+        private void ProcessItemClick(Item item, Vector2 pointer)
+        {
+            if (item == null)
+                return;
+
+            if (Vector2.Distance(pointer, mPlayer.Position) < 1.2f)
+                mPlayer.PickUp(item);
         }
 
         public override T Model<T>()

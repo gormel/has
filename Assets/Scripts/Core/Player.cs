@@ -7,13 +7,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Items;
+using Assets.Scripts.Core.Items.Base;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
     public class Player : Character
     {
-        private readonly Game mGame;
+        private Game mGame;
 
         public Parameter SkillDamage { get; private set; } = new Parameter(1);
         public int KillCount { get; private set; }
@@ -24,14 +26,26 @@ namespace Assets.Scripts.Core
         public Parameter ManaRegen { get; private set; } = new Parameter(0.5f);
         public event EventHandler Destroyed;
 
-        public List<Skill> KnownSkills { get; } = new List<Skill>();
+        public Inventory Inventory { get; }
+
+        public List<SkillReference> KnownSkills { get; } = new List<SkillReference>();
+        public SkillReference[] SelectedSkills { get; } = new SkillReference[4];
 
         private Stopwatch mAttackCooldown = Stopwatch.StartNew();
 
-        public Player(Game game, Vector2 spawnPoint)
+        private Player()
         {
-            mGame = game;
-            Position = spawnPoint;
+            Inventory = new Inventory(this);
+        }
+
+        public static Player Create(Player saved, Game game, Vector2 spawnPoint)
+        {
+            if (saved == null)
+                return Create(new Player(), game, spawnPoint);
+
+            saved.mGame = game;
+            saved.Position = spawnPoint;
+            return saved;
         }
 
         public override void OnDestroy()
@@ -57,6 +71,7 @@ namespace Assets.Scripts.Core
             }
 
             Mana = Mathf.Min(Mana + ManaRegen.Value * (float)deltaTime.TotalSeconds, MaxMana.Value);
+            Health = Mathf.Min(Health + HealthRegen.Value * (float)deltaTime.TotalSeconds, MaxHealth.Value);
         }
 
         public bool LearnSkill(Skill skill)
@@ -64,15 +79,20 @@ namespace Assets.Scripts.Core
             if (SkillPoints <= 0)
                 return false;
 
-            if (KnownSkills.Contains(skill))
+            if (KnownSkills.Any(r => r.Skill == skill))
                 return false;
 
             if (!SkillRequarements.Check(skill, this))
                 return false;
 
             SkillPoints--;
-            KnownSkills.Add(skill);
+            KnownSkills.Add(GetSkillReference(skill));
             return true;
+        }
+
+        public SkillReference GetSkillReference(Skill skill)
+        {
+            return new SkillReference(skill, () => mGame.AllSkills);
         }
 
         public bool AttackMonster(Monster m)
@@ -86,6 +106,16 @@ namespace Assets.Scripts.Core
             mAttackCooldown = Stopwatch.StartNew();
             mGame.Attack(this, m);
             
+            return true;
+        }
+
+        public bool PickUp(Item item)
+        {
+            if (Inventory.Bag.Count >= Inventory.Size)
+                return false;
+
+            mGame.Items.Remove(item);
+            Inventory.Bag.Add(item);
             return true;
         }
 

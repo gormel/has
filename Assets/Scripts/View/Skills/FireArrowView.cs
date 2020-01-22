@@ -9,69 +9,18 @@ using UnityEngine;
 
 namespace Assets.Scripts.View.Skills
 {
-    public class FireArrowView : SkillView
+    public class FireArrowView : SeparatedSkillView<FireArrow.Bullet>
     {
-        public GameObject BulletPrefab;
-        private GameObjectCache mCache;
-        private CollectionObserver<FireArrow.Bullet> mBulledsObserver;
-        private Dictionary<FireArrow.Bullet, GameObject> mBulletViews = new Dictionary<FireArrow.Bullet, GameObject>();
-
-        void Start()
+        protected override void ApplyPatricle(FireArrow.Bullet particle, GameObject target)
         {
-            mCache = new GameObjectCache(transform, BulletPrefab);
+            target.transform.localPosition = particle.Position;
+            var angle = Mathf.Atan2(particle.Direction.y, particle.Direction.x);
+            target.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
         }
 
-        public override void Load<T>(T model, Root root)
+        protected override IEnumerable<FireArrow.Bullet> GetParticles<TModel>(TModel model)
         {
-            base.Load(model, root);
-
-            if (model is FireArrow)
-            {
-                if (mBulledsObserver != null)
-                {
-                    mBulledsObserver.Added -= BulledsObserverOnAdded;
-                    mBulledsObserver.Removed -= BulledsObserverOnRemoved;
-                }
-                mBulledsObserver = new CollectionObserver<FireArrow.Bullet>((model as FireArrow).Bullets);
-                mBulledsObserver.Added += BulledsObserverOnAdded;
-                mBulledsObserver.Removed += BulledsObserverOnRemoved;
-            }
-        }
-
-        private void BulledsObserverOnRemoved(object sender, CollectionChangedEventArgs<FireArrow.Bullet> e)
-        {
-            mCache.Release(mBulletViews[e.Elem]);
-            mBulletViews.Remove(e.Elem);
-        }
-
-        private void BulledsObserverOnAdded(object sender, CollectionChangedEventArgs<FireArrow.Bullet> e)
-        {
-            var view = mCache.Allocate();
-            mBulletViews[e.Elem] = view;
-        }
-
-        void OnDestroy()
-        {
-            if (mBulledsObserver != null)
-            {
-                mBulledsObserver.Added -= BulledsObserverOnAdded;
-                mBulledsObserver.Removed -= BulledsObserverOnRemoved;
-            }
-        }
-
-        void Update()
-        {
-            var model = Model<FireArrow>();
-            model.Update(TimeSpan.FromSeconds(Time.deltaTime));
-            mBulledsObserver.Update();
-
-            foreach (var bullet in mBulletViews.Keys)
-            {
-                var view = mBulletViews[bullet];
-                view.transform.localPosition = bullet.Position;
-                var angle = Mathf.Atan2(bullet.Direction.y, bullet.Direction.x);
-                view.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
-            }
+            return (model as FireArrow)?.Bullets;
         }
     }
 }

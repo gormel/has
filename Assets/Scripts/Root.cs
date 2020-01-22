@@ -6,11 +6,18 @@ using Assets.Scripts.View.NPC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Core.Items.Base;
+using Assets.Scripts.View.Items;
 using Assets.Scripts.View.Skills;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Root : MonoBehaviour
 {
+    public static Player SavedPlayer;//initialization method
+    public static int Level;
+
     public GameObject MapViewPrefab;
     public GameObject PlayerPrefab;
     public Camera MainCamera;
@@ -20,19 +27,26 @@ public class Root : MonoBehaviour
     public GameObject HealthBar;
     public GameObject ManaBar;
 
-    public SkillView[] SelectedSkills { get; } = new SkillView[4];
+    public string LoseScene;
+    public string WinScene;
+
     public SkillPrefabDatabase SkillInfos;
     public IReadOnlyCollection<SkillView> AllSkills { get; private set; }
+
+    public ItemPrefabDatabase ItemInfos;
 
     private Game mGame;
 
     internal MapView MapView { get; set; }
     internal PlayerView PlayerView { get; set; }
 
+    private CollectionObserver<Item> mItemsObserver;
+    private Dictionary<Item, ItemView> mCreatedItems = new Dictionary<Item, ItemView>();
+
     private void Awake()
     {
-        mGame = new Game();
-        //init
+        mGame = new Game(SavedPlayer, Level);
+        mGame.LevelComplete += GameOnLevelComplete;
 
         var mapViewGO = Instantiate(MapViewPrefab);
         mapViewGO.transform.SetParent(transform);
@@ -50,6 +64,34 @@ public class Root : MonoBehaviour
         var skills = new List<SkillView>();
         GenerateViewsByInfo(MapView.Skills.transform, SkillInfos, mGame.AllSkills, view => skills.Add(view as SkillView));
         AllSkills = skills.AsReadOnly();
+
+        mItemsObserver = new CollectionObserver<Item>(mGame.Items.Keys);
+        mItemsObserver.Added += ItemAdded;
+        mItemsObserver.Removed += ItemRemoved;
+    }
+
+    private void ItemRemoved(object sender, CollectionChangedEventArgs<Item> e)
+    {
+        var go = mCreatedItems[e.Elem].gameObject;
+        go.transform.SetParent(null);
+        Destroy(go);
+        mCreatedItems.Remove(e.Elem);
+    }
+
+    private void ItemAdded(object sender, CollectionChangedEventArgs<Item> e)
+    {
+        GenerateViewsByInfo(MapView.Items.transform, ItemInfos, new[] { e.Elem }, v =>
+        {
+            mCreatedItems[e.Elem] = v as ItemView;
+            v.transform.localPosition = mGame.Items[e.Elem];
+        });
+    }
+
+    private void GameOnLevelComplete(object sender, EventArgs e)
+    {
+        SavedPlayer = mGame.Player;
+        Level++;
+        SceneManager.LoadScene(WinScene);
     }
 
     private void GenerateViewsByInfo<TModel>(Transform parent, PrefabDatabase infos, IEnumerable<TModel> models, Action<BaseView> created = null) where TModel : class
@@ -73,10 +115,11 @@ public class Root : MonoBehaviour
     void Update()
     {
         MainCamera.transform.position = new Vector3(PlayerView.transform.position.x, PlayerView.transform.position.y, MainCamera.transform.position.z);
+        mItemsObserver.Update();
     }
 
     public void GameOver()
     {
-        
+        SceneManager.LoadScene(LoseScene);
     }
 }

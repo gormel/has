@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Core.Common;
@@ -16,7 +17,7 @@ namespace Assets.Scripts.Core.Skills
         public class Bullet
         {
             private readonly FireArrow mSkill;
-            private readonly Monster mTarget;
+            private Monster mTarget;
             public Vector2 Position { get; private set; }
             public Vector2 Direction { get; private set; }
 
@@ -26,10 +27,20 @@ namespace Assets.Scripts.Core.Skills
                 mTarget = target;
                 Position = mSkill.Game.Player.Bounds.center;
                 Direction = (target.Position - Position).normalized;
+                target.Destroyed += TargetOnDestroyed;
+            }
+
+            private void TargetOnDestroyed(object sender, EventArgs e)
+            {
+                mTarget.Destroyed -= TargetOnDestroyed;
+                mTarget = null;
             }
 
             internal bool Update(TimeSpan deltaTime)
             {
+                if (mTarget == null)
+                    return true;
+
                 Direction = (mTarget.Bounds.center - Position).normalized;
                 Position += Direction * mSkill.ArrowSpeed * (float)deltaTime.TotalSeconds;
 

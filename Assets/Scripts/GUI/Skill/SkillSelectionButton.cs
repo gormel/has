@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Skills;
 using UnityEngine;
@@ -15,9 +16,11 @@ public class SkillSelectionButton : MonoBehaviour, IPointerDownHandler
     public Image CooldownIndicator;
     public Text BindingKey;
 
+    private Skill SelectedSkill => Root.PlayerView.Model<Player>().SelectedSkills[SkillSlot]?.Skill;
+
     void Start()
     {
-        IconTarget.sprite = Panel.IconDatabase.GetIcon(Root.SelectedSkills[SkillSlot]?.Model<Skill>()) ?? EmptyIcon;
+        IconTarget.sprite = Panel.IconDatabase.GetIcon(SelectedSkill) ?? EmptyIcon;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -27,17 +30,18 @@ public class SkillSelectionButton : MonoBehaviour, IPointerDownHandler
 
     private IEnumerator OnClick()
     {
-        yield return StartCoroutine(Panel.SelectSkill(Root.PlayerView.Model<Player>().KnownSkills));
+        yield return StartCoroutine(Panel.SelectSkill(Root.PlayerView.Model<Player>().KnownSkills.Select(r => r.Skill)));
         if (Panel.SelectedSkill != null)
         {
-            Root.SelectedSkills[SkillSlot] = Panel.SelectedSkill;
+            var player = Root.PlayerView.Model<Player>();
+            player.SelectedSkills[SkillSlot] = player.GetSkillReference(Panel.SelectedSkill.Model<Skill>());
         }
         IconTarget.sprite = Panel.IconDatabase.GetIcon(Panel.SelectedSkill?.Model<Skill>()) ?? EmptyIcon;
     }
 
     void Update()
     {
-        var skill = Root.SelectedSkills[SkillSlot]?.Model<Skill>();
+        var skill = SelectedSkill;
         if (skill != null)
         {
             CooldownIndicator.fillAmount = 1 - skill.CooldownPercent;

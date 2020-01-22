@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Items;
+using Assets.Scripts.Core.Items.Base;
 using Assets.Scripts.Core.Skills;
 using UnityEngine;
 
@@ -16,20 +18,21 @@ namespace Assets.Scripts.Core
         public Player Player { get; private set; }
         public List<Monster> Monsters { get; private set; } = new List<Monster>();//quad tree
         public List<Skill> AllSkills { get; private set; } = new List<Skill>();
+        public Dictionary<Item, Vector2> Items { get; private set; } = new Dictionary<Item, Vector2>();
 
         public event EventHandler LevelComplete;
 
-        public Game()
+        public Game(Player saved, int level)
         {
-            Map = new Map(this);
+            Map = new Map(this, level);
 
             foreach (var type in typeof(Skill).Assembly.GetTypes().Where(t => typeof(Skill).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface))
                 AllSkills.Add((Skill)Activator.CreateInstance(type, this));
 
-            Player = new Player(this, Map.SpawnPoint);
+            Player = Player.Create(saved, this, Map.SpawnPoint);
 
-            for (int i = 0; i < 15; i++)
-                Monsters.Add(new Monster(this, Map.GetRandomFreeLocation()));
+            for (int i = 0; i < 5 + level * 3; i++)
+                Monsters.Add(new Monster(this, Map.GetRandomFreeLocation(), level));
         }
 
         public Rect CheckMonsterCollision(Rect source, params Monster[] skip)

@@ -6,7 +6,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Items.Armor;
+using Assets.Scripts.Core.Items.Base;
+using Assets.Scripts.Core.Items.Weapons;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Core.NPC
 {
@@ -15,19 +19,21 @@ namespace Assets.Scripts.Core.NPC
         public virtual float DetectionRange { get; protected set; } = 5;
 
         private Game mGame;
+        private readonly int mLevel;
         private Stopwatch mTurnCooldown = Stopwatch.StartNew();
         private Stopwatch mAttackCooldown = Stopwatch.StartNew();
 
         public event EventHandler Destroyed;
         public event EventHandler Attacked;
 
-        public Monster(Game game, Vector2 position)
+        public Monster(Game game, Vector2 position, int level)//level -> difficulty
         {
             mGame = game;
+            mLevel = level;
             Position = position;
 
-            Attack.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 3.4f));
-            MaxHealth.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 60));
+            Attack.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 3.4f + level));
+            MaxHealth.Statuses.Add(new PermanentParameterStatus(ChangeType.Set, 60 + level * 10));
             Health = MaxHealth.Value;
         }
 
@@ -79,7 +85,17 @@ namespace Assets.Scripts.Core.NPC
         {
             Destroyed?.Invoke(this, EventArgs.Empty);
             mGame.Monsters.Remove(this);
-            //generate loot
+            //item pool
+            if (Random.value < 0.33)
+            {
+                Item loot;
+                if (Random.value < 0.5)
+                    loot = new Chainmail(mLevel);
+                else
+                    loot = new Sword(mLevel);
+
+                mGame.Items[loot] = Bounds.center;
+            }
         }
     }
 }

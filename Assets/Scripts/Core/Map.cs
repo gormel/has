@@ -20,21 +20,22 @@ namespace Assets.Scripts.Core
 
         public Vector2Int SpawnPoint { get; }
 
-        public Map(Game game)
+        public Map(Game game, int level)
         {
-            StaticObjects = new MapObject[50, 50];
+            StaticObjects = new MapObject[25 + 10 * level, 25 + 10 * level];
 
             var mask = new bool[Width, Height];
 
             //crete rooms
-            var rooms = 10;
+            var rooms = 3 + 2 * level;
             var roomCenters = new List<Vector2Int>(new Vector2Int[rooms]);
             for (int i = 0; i < rooms; i++)
             {
-                var x = Random.Range(0, Width);
-                var y = Random.Range(0, Height);
-                var roomW = Random.Range(4, 10);
-                var roomH = Random.Range(4, 10);
+                var roomW = Random.Range(4, 10) + level;
+                var roomH = Random.Range(4, 10) + level;
+
+                var x = Random.Range(roomW / 2, Width - roomW / 2);
+                var y = Random.Range(roomH / 2, Height - roomH / 2);
 
                 roomCenters[i] = new Vector2Int(x, y);
 
