@@ -18,29 +18,37 @@ namespace Assets.Scripts.Core
         public int Width => StaticObjects.GetLength(0);
         public int Height => StaticObjects.GetLength(1);
 
+        public int Rooms { get; }
+
         public Vector2Int SpawnPoint { get; }
 
         public Map(Game game, int level)
         {
-            StaticObjects = new MapObject[25 + 10 * level, 25 + 10 * level];
+            var sizeAddition = level * 10;
+            StaticObjects = new MapObject[25 + sizeAddition, 25 + sizeAddition];
 
             var mask = new bool[Width, Height];
 
             //crete rooms
-            var rooms = Math.Max((int)(Width * Height * 0.8 / ((10 + level) * (10 + level))), 2);
-            var roomCenters = new List<Vector2Int>(new Vector2Int[rooms]);
-            for (int i = 0; i < rooms; i++)
+            Rooms = Math.Max((int)(Width * Height * 0.6 / ((10 + level) * (10 + level))), 2);
+            var roomCenters = new List<Vector2Int>(new Vector2Int[Rooms]);
+            var roomSizes = new List<Vector2Int>(new Vector2Int[Rooms]);
+            for (int i = 0; i < Rooms; i++)
             {
                 var roomW = Random.Range(4, 10) + level;
                 var roomH = Random.Range(4, 10) + level;
+                if (roomW % 2 == 0)
+                    roomW++;
+                if (roomH % 2 == 0)
+                    roomH++;
 
-                var x = Random.Range(roomW / 2, Width - roomW / 2);
-                var y = Random.Range(roomH / 2, Height - roomH / 2);
+                var x = Random.Range(roomW / 2 + 1, Width - roomW / 2 - 1);
+                var y = Random.Range(roomH / 2 + 1, Height - roomH / 2 - 1);
 
                 bool incorrect = false;
-                for (int rx = 0; rx < roomW; rx++)
+                for (int rx = -1; rx < roomW + 1; rx++)
                 {
-                    for (int ry = 0; ry < roomH; ry++)
+                    for (int ry = -1; ry < roomH + 1; ry++)
                     {
                         var ex = x + rx - roomW / 2;
                         var ey = y + ry - roomH / 2;
@@ -65,6 +73,7 @@ namespace Assets.Scripts.Core
                 }
 
                 roomCenters[i] = new Vector2Int(x, y);
+                roomSizes[i] = new Vector2Int(roomW, roomH);
 
                 for (int rx = 0; rx < roomW; rx++)
                 {
@@ -81,20 +90,27 @@ namespace Assets.Scripts.Core
             }
 
             //create tunnels
-            for (int i = 0; i < rooms * 3; i++)
+            for (int i = 0; i < Rooms * 4; i++)
             {
-                var dirIndex = Random.Range(0, 3) + 1;
+                var dirIndex = i % 4 + 1;
                 var dir = new Vector2Int(1, 0);
                 for (int j = 0; j < dirIndex; j++)
                 {
                     dir = Rotate90(dir);
                 }
 
-                var p = roomCenters[i / 3];
-                var prev = mask[p.x, p.y];
-                while (p.x >= 0 && p.x < Width && p.y >= 0 && p.y < Height && (prev || !mask[p.x, p.y]))
+                var offset = roomSizes[i / 4];
+                offset.Scale(dir);
+                offset.Set((offset.x / 2 + 1) * Math.Abs(Math.Sign(offset.x)), (offset.y / 2 + 1) * Math.Abs(Math.Sign(offset.y)));
+                var p = roomCenters[i / 4] + offset;
+                while (p.x >= 0 && p.x < Width && p.y >= 0 && p.y < Height)
                 {
-                    prev = mask[p.x, p.y];
+                    if (Neighbours(mask, p.x, p.y) > 1)
+                    {
+                        mask[p.x, p.y] = true;
+                        break;
+                    }
+
                     mask[p.x, p.y] = true;
                     p += dir;
                 }
@@ -113,6 +129,58 @@ namespace Assets.Scripts.Core
                 mask[Width - 1, y] = false;
             }
 
+            //fix dead ends
+            for (int x = 1; x < Width - 1; x++)
+            {
+                for (int y = 1; y < Height; y++)
+                {
+                    if (!mask[x, y])
+                        continue;
+
+                    if (CheckDeadEndAt(mask, x, y))
+                        mask[x, y] = false;
+                    else
+                        break;
+                }
+
+                for (int y = Height - 2; y > 0; y--)
+                {
+                    if (!mask[x, y])
+                        continue;
+
+                    if (CheckDeadEndAt(mask, x, y))
+                        mask[x, y] = false;
+                    else
+                        break;
+                }
+            }
+
+            for (int y = 1; y < Height - 1; y++)
+            {
+                for (int x = 1; x < Width - 1; x++)
+                {
+                    if (!mask[x, y])
+                        continue;
+
+                    if (CheckDeadEndAt(mask, x, y))
+                        mask[x, y] = false;
+                    else
+                        break;
+                }
+
+                for (int x = Width - 2; x > 0; x--)
+                {
+                    if (!mask[x, y])
+                        continue;
+
+                    if (CheckDeadEndAt(mask, x, y))
+                        mask[x, y] = false;
+                    else
+                        break;
+                }
+            }
+
+            //convert mask to objects
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
@@ -128,6 +196,29 @@ namespace Assets.Scripts.Core
             var exitX = Math.Max(0, Math.Min(Width - 1, roomCenters[exitIndex].x));
             var exitY = Math.Max(0, Math.Min(Height - 1, roomCenters[exitIndex].y));
             StaticObjects[exitX, exitY] = new Exit(game);
+        }
+
+        private float Sq(float x) => x * x;
+
+        private int Neighbours(bool[,] mask, int x, int y)
+        {
+            var count = 0;
+            if (x > 0 && x < Width - 1 && mask[x - 1, y])
+                count++;
+            if (x > 0 && x < Width - 1 && mask[x + 1, y])
+                count++;
+            if (y > 0 && y < Height - 1 && mask[x, y - 1])
+                count++;
+            if (y > 0 && y < Height - 1 && mask[x, y + 1])
+                count++;
+
+            return count;
+        }
+
+        private bool CheckDeadEndAt(bool[,] mask, int x, int y)
+        {
+
+            return Neighbours(mask, x, y) == 1;
         }
 
         private MapObject GetStaticObjectType(bool[,] mask, int x, int y)

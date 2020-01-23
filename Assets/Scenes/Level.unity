@@ -376,9 +376,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pairs:
-  - ObjectType: Assets.Scripts.Core.Items.Armor.Chainmail, Assembly-CSharp, Version=0.0.0.0,
+  - ObjectType: Assets.Scripts.Core.Items.Armors.Robe, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    Prefab: {fileID: 4997747548576649003, guid: ac342b9145fc9d444a1ba7dd5e13d6f2,
+      type: 3}
+  - ObjectType: Assets.Scripts.Core.Items.Armors.ChainmailBikini, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    Prefab: {fileID: 3672004185528636830, guid: b3c96c94d5fda6c4298c75bc5b9aaac0,
+      type: 3}
+  - ObjectType: Assets.Scripts.Core.Items.Armors.Chainmail, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     Prefab: {fileID: 3173769781508467629, guid: 93eb55befd16506429a47bd0d2b8e6a1,
+      type: 3}
+  - ObjectType: Assets.Scripts.Core.Items.Weapons.Staff, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    Prefab: {fileID: 7116744860720611769, guid: 4e056d03194561a4b913298e1b09af19,
+      type: 3}
+  - ObjectType: Assets.Scripts.Core.Items.Weapons.Spear, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    Prefab: {fileID: 5605331277736057525, guid: b515f72f3bb9eac4496f9852437f7f38,
       type: 3}
   - ObjectType: Assets.Scripts.Core.Items.Weapons.Sword, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -598,6 +614,21 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 429432669}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &450996876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Armors.Chainmail, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: 0feb4f5e80f7aa84a9af0a47280fc65a, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1117,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 768200883}
   m_CullTransparentMesh: 0
+--- !u!114 &979146493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Armors.Robe, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: 98cda05343b579b4ba859b56508a0306, type: 3}
 --- !u!1 &1008901034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,6 +1271,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1029305984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Weapons.Staff, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: c305aec9b9f69c94282d93a1e176d0f6, type: 3}
 --- !u!1 &1058844715
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,21 +1430,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080425494}
   m_CullTransparentMesh: 0
---- !u!114 &1255958543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillType: Assets.Scripts.Core.Skills.FireNova, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  Icon: {fileID: 0}
 --- !u!1 &1274312937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,10 +1679,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icons:
-  - {fileID: 2127495657}
-  - {fileID: 1255958543}
-  - {fileID: 1997685290}
-  - {fileID: 1927779807}
+  - {fileID: 1327284284}
+  - {fileID: 1491337044}
+  - {fileID: 1376335529}
+  - {fileID: 1452129762}
+  - {fileID: 1341547261}
+  - {fileID: 1029305984}
+  - {fileID: 450996876}
+  - {fileID: 1874519240}
+  - {fileID: 979146493}
 --- !u!114 &1322616282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1655,6 +1706,66 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6395365547277179924}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1327284284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Skills.FireArrow, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 0}
+--- !u!114 &1341547261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Weapons.Spear, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: 9285ca01ff4e49946b3cd70c81d861eb, type: 3}
+--- !u!114 &1376335529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Weapons.Sword, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: 4f3dc12f782bd3046a339ed8af817689, type: 3}
+--- !u!114 &1452129762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Armor.Chainmail, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: 0feb4f5e80f7aa84a9af0a47280fc65a, type: 3}
 --- !u!1 &1467584198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1826,21 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1491337044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Skills.FireNova, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 0}
 --- !u!1 &1511803352
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,6 +2704,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841325235}
   m_CullTransparentMesh: 0
+--- !u!114 &1874519240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: Assets.Scripts.Core.Items.Armors.ChainmailBikini, Assembly-CSharp, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  Icon: {fileID: 21300000, guid: fa69340907c77ba4894e90994ee864a1, type: 3}
 --- !u!1 &1921970396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2672,21 +2813,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1927779807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillType: Assets.Scripts.Core.Items.Armor.Chainmail, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  Icon: {fileID: 21300000, guid: 0feb4f5e80f7aa84a9af0a47280fc65a, type: 3}
 --- !u!1 &1943952841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,21 +3047,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1973004257}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1997685290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillType: Assets.Scripts.Core.Items.Weapons.Sword, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  Icon: {fileID: 21300000, guid: 4f3dc12f782bd3046a339ed8af817689, type: 3}
 --- !u!1 &2000746092
 GameObject:
   m_ObjectHideFlags: 0
@@ -3084,21 +3195,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2107561221}
   m_CullTransparentMesh: 0
---- !u!114 &2127495657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbd7a421811d7d4e911ed776a14b445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillType: Assets.Scripts.Core.Skills.FireArrow, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
-  Icon: {fileID: 0}
 --- !u!1001 &6395365547277179924
 PrefabInstance:
   m_ObjectHideFlags: 0

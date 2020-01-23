@@ -1,13 +1,13 @@
-﻿using Assets.Scripts.Core.Items.Armors;
+﻿using Assets.Scripts.Core.Items.Weapons;
 
 namespace Assets.Scripts.View.Items {
-    public class ChainmailView : ItemView
+    public class StaffView : ItemView
     {
-        private Chainmail mModel;
+        private Staff mModel;
 
         public override void Load<T>(T model, Root root)
         {
-            mModel = model as Chainmail;
+            mModel = model as Staff;
         }
 
         public override T Model<T>()

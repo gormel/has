@@ -4,25 +4,25 @@ using Assets.Scripts.Core.Common.ParameterStatuses;
 using Assets.Scripts.Core.Items.Base;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Core.Items.Weapons
+namespace Assets.Scripts.Core.Items.Armors
 {
-    public class Sword : Weapon
+    public class ChainmailBikini : Armor
     {
-        private int mAttack;
+        private int mArmor;
 
-        public Sword(int level)
+        public ChainmailBikini(int level)
         {
-            mAttack = Random.Range(5, 10) * (level + 1);
+            mArmor = 20 * (level + 1);
 
-            PropertyDescriptions.Add("==Sword==");
-            PropertyDescriptions.Add($"Attack +{mAttack}");
+            PropertyDescriptions.Add("==Chainmail bikini==");
+            PropertyDescriptions.Add($"Armor +{mArmor}");
         }
 
         protected override (ParameterStatus Status, Func<Player, Parameter> Param)[] Parameters()
         {
             return new (ParameterStatus, Func<Player, Parameter>)[]
             {
-                (new PermanentParameterStatus(ChangeType.Add, mAttack), p => p.Attack)
+                (new PermanentParameterStatus(ChangeType.Add, mArmor), p => p.Armor),
             };
         }
     }

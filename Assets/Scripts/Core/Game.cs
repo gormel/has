@@ -31,7 +31,7 @@ namespace Assets.Scripts.Core
 
             Player = Player.Create(saved, this, Map.SpawnPoint);
 
-            for (int i = 0; i < 5 + level * 3; i++)
+            for (int i = 0; i < Map.Rooms * 2; i++)
                 Monsters.Add(new Monster(this, Map.GetRandomFreeLocation(), level));
         }
 

@@ -1,13 +1,13 @@
 ﻿using Assets.Scripts.Core.Items.Armors;
 
 namespace Assets.Scripts.View.Items {
-    public class ChainmailView : ItemView
+    public class ChainmailBikiniView : ItemView
     {
-        private Chainmail mModel;
+        private ChainmailBikini mModel;
 
         public override void Load<T>(T model, Root root)
         {
-            mModel = model as Chainmail;
+            mModel = model as ChainmailBikini;
         }
 
         public override T Model<T>()

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.Core.Items.Armor;
+using Assets.Scripts.Core.Items.Armors;
 using Assets.Scripts.Core.Items.Base;
 using Assets.Scripts.Core.Items.Weapons;
 using UnityEngine;
@@ -85,16 +85,11 @@ namespace Assets.Scripts.Core.NPC
         {
             Destroyed?.Invoke(this, EventArgs.Empty);
             mGame.Monsters.Remove(this);
-            //item pool
-            if (Random.value < 0.33)
-            {
-                Item loot;
-                if (Random.value < 0.5)
-                    loot = new Chainmail(mLevel);
-                else
-                    loot = new Sword(mLevel);
 
-                mGame.Items[loot] = Bounds.center;
+            var loot = DropTable.GenerateLoot(mLevel);
+            if (loot != null)
+            {
+                mGame.Items[loot] = Bounds.center;//insert abstraction level
             }
         }
     }

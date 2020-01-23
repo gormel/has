@@ -18,13 +18,16 @@ namespace Assets.Scripts.Core
     {
         private Game mGame;
 
-        public Parameter SkillDamage { get; private set; } = new Parameter(1);
         public int KillCount { get; private set; }
         public int NextLevelKillCount { get; private set; } = 5;
         public int SkillPoints { get; private set; }
+
         public float Mana { get; internal set; } = 100;
         public Parameter MaxMana { get; private set; } = new Parameter(100);
         public Parameter ManaRegen { get; private set; } = new Parameter(0.5f);
+
+        public Parameter SkillDamage { get; private set; } = new Parameter(1);
+
         public event EventHandler Destroyed;
 
         public Inventory Inventory { get; }
@@ -73,7 +76,6 @@ namespace Assets.Scripts.Core
 
             Mana = Mathf.Min(Mana + ManaRegen.Value * (float)deltaTime.TotalSeconds, MaxMana.Value);
             Health = Mathf.Min(Health + HealthRegen.Value * (float)deltaTime.TotalSeconds, MaxHealth.Value);
-            //Armor.Statuses.Add(new PermanentParameterStatus(ChangeType.Add, 99999999999999999));
         }
 
         public bool LearnSkill(Skill skill)

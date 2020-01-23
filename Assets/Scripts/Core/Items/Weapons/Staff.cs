@@ -6,23 +6,23 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Core.Items.Weapons
 {
-    public class Sword : Weapon
+    public class Staff : Weapon
     {
-        private int mAttack;
+        private float mSpellDamage;
 
-        public Sword(int level)
+        public Staff(int level)
         {
-            mAttack = Random.Range(5, 10) * (level + 1);
+            mSpellDamage = Random.Range(1, 1.2f) * (level + 1);
 
-            PropertyDescriptions.Add("==Sword==");
-            PropertyDescriptions.Add($"Attack +{mAttack}");
+            PropertyDescriptions.Add("==Staff==");
+            PropertyDescriptions.Add($"Skill damage x{mSpellDamage}");
         }
 
         protected override (ParameterStatus Status, Func<Player, Parameter> Param)[] Parameters()
         {
             return new (ParameterStatus, Func<Player, Parameter>)[]
             {
-                (new PermanentParameterStatus(ChangeType.Add, mAttack), p => p.Attack)
+                (new PermanentParameterStatus(ChangeType.Mul, mSpellDamage), p => p.SkillDamage)
             };
         }
     }
