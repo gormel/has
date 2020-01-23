@@ -2,20 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.GUI.Common;
 using UnityEngine;
 
 namespace Assets.Scripts.GUI.Skill
 {
-    public class SkillIcons : MonoBehaviour
+    public class SkillIcons : IconsDatabase<Core.Skills.Skill>
     {
-        public List<SkillIconInfo> Icons;
-
-        public Sprite GetIcon(Core.Skills.Skill skill)
-        {
-            if (skill == null)
-                return null;
-
-            return Icons.FirstOrDefault(i => i.SkillType == skill.GetType().AssemblyQualifiedName)?.Icon;
-        }
     }
 }

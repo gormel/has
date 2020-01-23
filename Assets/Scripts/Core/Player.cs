@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Core.Common.ParameterStatuses;
 using Assets.Scripts.Core.Items;
 using Assets.Scripts.Core.Items.Base;
 using UnityEngine;
@@ -72,6 +73,7 @@ namespace Assets.Scripts.Core
 
             Mana = Mathf.Min(Mana + ManaRegen.Value * (float)deltaTime.TotalSeconds, MaxMana.Value);
             Health = Mathf.Min(Health + HealthRegen.Value * (float)deltaTime.TotalSeconds, MaxHealth.Value);
+            //Armor.Statuses.Add(new PermanentParameterStatus(ChangeType.Add, 99999999999999999));
         }
 
         public bool LearnSkill(Skill skill)
@@ -114,8 +116,21 @@ namespace Assets.Scripts.Core
             if (Inventory.Bag.Count >= Inventory.Size)
                 return false;
 
+            if (Inventory.Bag.Contains(item))
+                return false;
+
             mGame.Items.Remove(item);
             Inventory.Bag.Add(item);
+            return true;
+        }
+
+        public bool DropOut(Item item)
+        {
+            if (!Inventory.Bag.Contains(item))
+                return false;
+
+            mGame.Items[item] = Bounds.center;
+            Inventory.Bag.Remove(item);
             return true;
         }
 

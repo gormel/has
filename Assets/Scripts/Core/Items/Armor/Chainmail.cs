@@ -11,30 +11,30 @@ namespace Assets.Scripts.Core.Items.Armor
     public class Chainmail : Base.Armor
     {
         private ParameterStatus mMaxHpStatus;
-        private ParameterStatus mHpRegenStatus;
+        private ParameterStatus mArmorStatus;
 
         public Chainmail(int level)
         {
             var maxHp = Random.Range(10, 20) * (level + 1);
-            var hpRegen = Random.Range(1, 3) * (level + 1);
+            var armor = Random.Range(1, 3) * (level + 1);
 
             mMaxHpStatus = new PermanentParameterStatus(ChangeType.Add, maxHp);
-            mHpRegenStatus = new PermanentParameterStatus(ChangeType.Add, hpRegen);
+            mArmorStatus = new PermanentParameterStatus(ChangeType.Add, armor);
 
             PropertyDescriptions.Add($"Max health +{maxHp}");
-            PropertyDescriptions.Add($"Health regen +{hpRegen}");
+            PropertyDescriptions.Add($"Armor +{armor}");
         }
 
         public override void OnPuton(Player player)
         {
             player.MaxHealth.Statuses.Add(mMaxHpStatus);
-            player.HealthRegen.Statuses.Add(mHpRegenStatus);
+            player.Armor.Statuses.Add(mArmorStatus);
         }
 
         public override void OnPutOff(Player player)
         {
             player.MaxHealth.Statuses.Remove(mMaxHpStatus);
-            player.HealthRegen.Statuses.Remove(mHpRegenStatus);
+            player.HealthRegen.Statuses.Remove(mArmorStatus);
         }
     }
 }

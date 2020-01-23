@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.GUI.Skill {
+namespace Assets.Scripts.GUI.Common
+{
     [Serializable]
-    public class SkillIconInfo : ScriptableObject
+    public class IconInfo : ScriptableObject
     {
         public string SkillType;
         public Sprite Icon;

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Core.Items.Weapons
 
         public Sword(int level)
         {
-            var attack = Random.Range(level / 2 + 1, level) * 5;
+            var attack = Random.Range(5, 10) * (level + 1);
             mAttackStatus = new PermanentParameterStatus(ChangeType.Add, attack);
 
             PropertyDescriptions.Add($"Attack +{attack}");

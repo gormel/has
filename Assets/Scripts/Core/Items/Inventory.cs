@@ -10,7 +10,7 @@ namespace Assets.Scripts.Core.Items
 {
     public class Inventory
     {
-        public int Size { get; } = 10;
+        public int Size { get; } = 60;
         private readonly Player mOwner;
         public Base.Weapon Weapon { get; set; }
         public Base.Armor Armor { get; set; }

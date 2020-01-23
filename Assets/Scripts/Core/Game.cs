@@ -66,7 +66,8 @@ namespace Assets.Scripts.Core
 
         public void Attack(Character source, Character target)
         {
-            TakeDamage(source, source.Attack.Value, target);
+            var damage = source.Attack.Value / (target.Armor.Value + 1);
+            TakeDamage(source, damage, target);
         }
 
         public void CompleteLevel()

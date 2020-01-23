@@ -27,7 +27,7 @@ namespace Assets.Scripts.Core
             var mask = new bool[Width, Height];
 
             //crete rooms
-            var rooms = 3 + 2 * level;
+            var rooms = Math.Max((int)(Width * Height * 0.8 / ((10 + level) * (10 + level))), 2);
             var roomCenters = new List<Vector2Int>(new Vector2Int[rooms]);
             for (int i = 0; i < rooms; i++)
             {
@@ -36,6 +36,33 @@ namespace Assets.Scripts.Core
 
                 var x = Random.Range(roomW / 2, Width - roomW / 2);
                 var y = Random.Range(roomH / 2, Height - roomH / 2);
+
+                bool incorrect = false;
+                for (int rx = 0; rx < roomW; rx++)
+                {
+                    for (int ry = 0; ry < roomH; ry++)
+                    {
+                        var ex = x + rx - roomW / 2;
+                        var ey = y + ry - roomH / 2;
+                        if (ex < 0 || ey < 0 || ex >= Width || ey >= Height)
+                            continue;
+
+                        if (mask[ex, ey])
+                        {
+                            incorrect = true;
+                            break;
+                        }
+                    }
+
+                    if (incorrect)
+                        break;
+                }
+
+                if (incorrect)
+                {
+                    i--;
+                    continue;
+                }
 
                 roomCenters[i] = new Vector2Int(x, y);
 

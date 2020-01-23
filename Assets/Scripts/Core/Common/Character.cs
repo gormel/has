@@ -14,6 +14,8 @@ namespace Assets.Scripts.Core.Common
         public Parameter MaxHealth { get; } = new Parameter(100);
         public Parameter HealthRegen { get; } = new Parameter(0);
 
+        public Parameter Armor { get; } = new Parameter(0);
+
         public Parameter Attack { get; } = new Parameter(20);
         public Parameter AttackRange { get; } = new Parameter(1.45f);
         public Parameter AttackRate { get; } = new Parameter(1);//hit per sec
