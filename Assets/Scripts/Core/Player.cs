@@ -20,7 +20,7 @@ namespace Assets.Scripts.Core
 
         public int KillCount { get; private set; }
         public int NextLevelKillCount { get; private set; } = 5;
-        public int SkillPoints { get; private set; }
+        public int SkillPoints { get; private set; } = 3;
 
         public float Mana { get; internal set; } = 100;
         public Parameter MaxMana { get; private set; } = new Parameter(100);

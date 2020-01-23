@@ -12,7 +12,7 @@ namespace Assets.Scripts.Core.Items.Weapons
 
         public Sword(int level)
         {
-            mAttack = Random.Range(5, 10) * (level + 1);
+            mAttack = Random.Range(15, 20) * (level + 1);
 
             PropertyDescriptions.Add("==Sword==");
             PropertyDescriptions.Add($"Attack +{mAttack}");

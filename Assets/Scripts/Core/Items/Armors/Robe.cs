@@ -14,7 +14,7 @@ namespace Assets.Scripts.Core.Items.Armors
         public Robe(int level)
         {
             mMaxMana = Random.Range(10, 20) * (level + 1);
-            mManaRegen = Random.Range(0.5f, 2) * (level + 1);
+            mManaRegen = Random.Range(0.5f, 0.7f) * (level + 1);
 
             PropertyDescriptions.Add("==Robe==");
             PropertyDescriptions.Add($"Max mana +{mMaxMana}");

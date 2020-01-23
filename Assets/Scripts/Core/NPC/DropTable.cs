@@ -25,7 +25,7 @@ namespace Assets.Scripts.Core.NPC
         {
             new DropRecord(0.3f, lvl => new Chainmail(lvl)),
             new DropRecord(0.3f, lvl => new Robe(lvl)),
-            new DropRecord(0.001f, lvl => new ChainmailBikini(lvl)),
+            new DropRecord(0.01f, lvl => new ChainmailBikini(lvl)),
 
             new DropRecord(0.3f, lvl => new Sword(lvl)),
             new DropRecord(0.3f, lvl => new Spear(lvl)),

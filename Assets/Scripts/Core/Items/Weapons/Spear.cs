@@ -14,7 +14,7 @@ namespace Assets.Scripts.Core.Items.Weapons
         public Spear(int level)
         {
             mAttack = Random.Range(3, 7) * (level + 1);
-            mRange = 1.5f;
+            mRange = 0.5f;
 
             PropertyDescriptions.Add("==Spear==");
             PropertyDescriptions.Add($"Attack +{mAttack}");

@@ -86,7 +86,11 @@ namespace Assets.Scripts.View
                 {
                     var skill = mRoot.PlayerView.Model<Player>().SelectedSkills[i]?.Skill;
                     if (skill != null)
-                        skill.Use(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    {
+                        var pointer = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        if (skill.Use(pointer))
+                            mRoot.AllSkills.FirstOrDefault(v => v.Model<Skill>() == skill)?.Use(pointer);
+                    }
                 }
             }
 

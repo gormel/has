@@ -21,5 +21,7 @@ namespace Assets.Scripts.View.Skills
         {
             return mSkill as T;
         }
+
+        public virtual void Use(Vector2 pointer) { }
     }
 }

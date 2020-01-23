@@ -64,6 +64,11 @@ namespace Assets.Scripts.Core
             return Monsters.FirstOrDefault(m => m.Bounds.Contains(point));
         }
 
+        public IEnumerable<Monster> QueryMonsters(Vector2 point, float radius)
+        {
+            return Monsters.Where(m => MathUtils.DistanceToRect(point, m.Bounds) <= radius).ToList();
+        }
+
         public void Attack(Character source, Character target)
         {
             var damage = source.Attack.Value / (target.Armor.Value + 1);

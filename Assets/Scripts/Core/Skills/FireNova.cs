@@ -29,7 +29,7 @@ namespace Assets.Scripts.Core.Skills
             internal bool Update(TimeSpan deltaTime)
             {
                 Radius += mNova.ExpansionSpeed * (float)deltaTime.TotalSeconds;
-                var monstersIn = mNova.Game.Monsters.Where(m => MathUtils.DistanceToRect(Center, m.Bounds) <= Radius).Except(mDamaged).ToList();
+                var monstersIn = mNova.Game.QueryMonsters(Center, Radius).Except(mDamaged);
                 foreach (var monster in monstersIn)
                 {
                     mNova.Game.TakeDamage(mNova.Game.Player, mNova.Damage * mNova.Game.Player.SkillDamage.Value, monster);
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Core.Skills
 
         public float MaxRadius { get; } = 3;
         public float ExpansionSpeed { get; } = 6;
-        public float Damage { get; } = 30;
+        public float Damage { get; } = 40;
 
         public List<Charge> Charges { get; } = new List<Charge>();
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Core.Skills
             : base(game)
         {
             Cost = 20;
-            Cooldown = TimeSpan.FromSeconds(20);
+            Cooldown = TimeSpan.FromSeconds(10);
         }
 
         protected override bool UseInner(Vector2 pointer)

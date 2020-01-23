@@ -30,7 +30,8 @@ namespace Assets.Scripts.Core.Skills
 
         private static Dictionary<Type, Requarement[]> mRequarements = new Dictionary<Type, Requarement[]>
         {
-            { typeof(FireNova), new [] { new LearnedSkillRequarement(typeof(FireArrow)) } }
+            { typeof(FireNova), new [] { new LearnedSkillRequarement(typeof(FireArrow)) } },
+            { typeof(FireBlast), new [] { new LearnedSkillRequarement(typeof(FireNova)) } },
         };
 
         public static bool Check(Skill skill, Player player)

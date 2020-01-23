@@ -12,7 +12,7 @@ namespace Assets.Scripts.Core.Items.Weapons
 
         public Staff(int level)
         {
-            mSpellDamage = Random.Range(1, 1.2f) * (level + 1);
+            mSpellDamage = Random.Range(0.2f, 0.4f) * (level + 1) + 1;
 
             PropertyDescriptions.Add("==Staff==");
             PropertyDescriptions.Add($"Skill damage x{mSpellDamage}");
