@@ -89,7 +89,7 @@ namespace Assets.Scripts.View
                     {
                         var pointer = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         if (skill.Use(pointer))
-                            mRoot.AllSkills.FirstOrDefault(v => v.Model<Skill>() == skill)?.Use(pointer);
+                            mRoot.AllSkills.FirstOrDefault(v => v.Model<Skill>() == skill)?.Use(mRoot, pointer);
                     }
                 }
             }

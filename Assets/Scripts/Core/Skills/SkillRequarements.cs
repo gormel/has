@@ -32,6 +32,9 @@ namespace Assets.Scripts.Core.Skills
         {
             { typeof(FireNova), new [] { new LearnedSkillRequarement(typeof(FireArrow)) } },
             { typeof(FireBlast), new [] { new LearnedSkillRequarement(typeof(FireNova)) } },
+            { typeof(PoisonCurse), new [] { new LearnedSkillRequarement(typeof(SlowCurse)) } },
+            { typeof(Blink), new [] { new LearnedSkillRequarement(typeof(Haste)) } },
+            { typeof(Heal), new [] { new LearnedSkillRequarement(typeof(Blink)) } },
         };
 
         public static bool Check(Skill skill, Player player)

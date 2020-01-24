@@ -101,7 +101,7 @@ namespace Assets.Scripts.Core
 
                 var offset = roomSizes[i / 4];
                 offset.Scale(dir);
-                offset.Set((offset.x / 2 + 1) * Math.Abs(Math.Sign(offset.x)), (offset.y / 2 + 1) * Math.Abs(Math.Sign(offset.y)));
+                offset.Set((offset.x / 2 + Math.Sign(offset.x)) * Math.Abs(Math.Sign(offset.x)), (offset.y / 2 + Math.Sign(offset.y)) * Math.Abs(Math.Sign(offset.y)));
                 var p = roomCenters[i / 4] + offset;
                 while (p.x >= 0 && p.x < Width && p.y >= 0 && p.y < Height)
                 {
@@ -213,6 +213,12 @@ namespace Assets.Scripts.Core
                 count++;
 
             return count;
+        }
+
+        public bool IsFree(Vector2 at)
+        {
+            var obj = StaticObjects[Mathf.FloorToInt(at.x), Mathf.FloorToInt(at.y)];
+            return obj == null || obj.IsWalkable;
         }
 
         private bool CheckDeadEndAt(bool[,] mask, int x, int y)

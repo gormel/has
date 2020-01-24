@@ -15,7 +15,7 @@ namespace Assets.Scripts.Core.Items.Weapons
             mSpellDamage = Random.Range(0.2f, 0.4f) * (level + 1) + 1;
 
             PropertyDescriptions.Add("==Staff==");
-            PropertyDescriptions.Add($"Skill damage x{mSpellDamage}");
+            PropertyDescriptions.Add($"Skill damage x{mSpellDamage:#.00}");
         }
 
         protected override (ParameterStatus Status, Func<Player, Parameter> Param)[] Parameters()

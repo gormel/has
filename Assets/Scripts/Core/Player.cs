@@ -126,6 +126,11 @@ namespace Assets.Scripts.Core
             return true;
         }
 
+        public void SetPosition(Vector2 position)
+        {
+            Position = position;
+        }
+
         public bool DropOut(Item item)
         {
             if (!Inventory.Bag.Contains(item))

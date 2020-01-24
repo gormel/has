@@ -14,9 +14,10 @@ namespace Assets.Scripts.Core.Skills
         public float Cost { get; protected set; }
         public TimeSpan Cooldown { get; protected set; }
 
-        public float CooldownPercent => Mathf.Min(1, (float)(mCooldownTimer.Elapsed.TotalSeconds / Cooldown.TotalSeconds));
+        public float CooldownPercent => Mathf.Min(1, (float)(CooldownTimer.TotalSeconds / Cooldown.TotalSeconds));
 
-        private Stopwatch mCooldownTimer = Stopwatch.StartNew();
+        private Stopwatch mCooldownTimer = null;
+        private TimeSpan CooldownTimer => mCooldownTimer?.Elapsed ?? Cooldown;
 
         public Skill(Game game)
         {
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Core.Skills
 
         public bool Use(Vector2 pointer)
         {
-            if (mCooldownTimer.Elapsed < Cooldown)
+            if (CooldownTimer < Cooldown)
                 return false;
 
             if (Game.Player.Mana < Cost)

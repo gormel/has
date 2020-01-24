@@ -7,7 +7,7 @@ namespace Assets.Scripts.View.Skills
     {
         public GameObject ExplosionPrefab;
 
-        public override void Use(Vector2 pointer)
+        public override void Use(Root root, Vector2 pointer)
         {
             var inst = Instantiate(ExplosionPrefab);
             inst.transform.SetParent(transform);
