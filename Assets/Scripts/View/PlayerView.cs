@@ -95,7 +95,9 @@ namespace Assets.Scripts.View
             }
 
             mRoot.HealthBar.transform.localScale = new Vector3(1, mPlayer.Health / mPlayer.MaxHealth.Value);
+            mRoot.HealthText.text = $"{mPlayer.Health:#}/{mPlayer.MaxHealth.Value:#}";
             mRoot.ManaBar.transform.localScale = new Vector3(1, mPlayer.Mana / mPlayer.MaxMana.Value);
+            mRoot.ManaText.text = $"{mPlayer.Mana:#}/{mPlayer.MaxMana.Value:#}";
         }
 
         private IEnumerator AnimateAttack(Vector2 dir)

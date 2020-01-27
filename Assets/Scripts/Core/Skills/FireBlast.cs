@@ -11,6 +11,7 @@ namespace Assets.Scripts.Core.Skills
             : base(game)
         {
             Cooldown = TimeSpan.FromSeconds(7);
+            Cost = 25;
         }
 
         protected override bool UseInner(Vector2 pointer)

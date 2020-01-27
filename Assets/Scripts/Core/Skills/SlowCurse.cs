@@ -22,7 +22,7 @@ namespace Assets.Scripts.Core.Skills
             if (target == null)
                 return false;
 
-            target.Speed.Statuses.Add(new TimeParameterStatus(ChangeType.Mul, Force * Game.Player.SkillDamage.Value, Duration));
+            target.Speed.Statuses.Add(new TimeParameterStatus(ChangeType.Mul, Force / Game.Player.SkillDamage.Value, Duration));
             return true;
         }
 

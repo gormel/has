@@ -12,6 +12,7 @@ using Assets.Scripts.View.Skills;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Root : MonoBehaviour
 {
@@ -25,7 +26,11 @@ public class Root : MonoBehaviour
     public MonsterPrefabDatabase MonsterInfos;
 
     public GameObject HealthBar;
+    public Text HealthText;
     public GameObject ManaBar;
+    public Text ManaText;
+
+    public Text LevelCounter;
 
     public string LoseScene;
     public string WinScene;
@@ -116,6 +121,7 @@ public class Root : MonoBehaviour
     {
         MainCamera.transform.position = new Vector3(PlayerView.transform.position.x, PlayerView.transform.position.y, MainCamera.transform.position.z);
         mItemsObserver.Update();
+        LevelCounter.text = $"Level: {Level + 1}";
     }
 
     public void GameOver()
