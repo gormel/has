@@ -18,7 +18,7 @@ namespace Assets.Scripts.Core
     {
         private Game mGame;
 
-        public int KillCount { get; private set; }
+        public int NextSkillKillCount { get; private set; }
         public int NextLevelKillCount { get; private set; } = 5;
         public int SkillPoints { get; private set; }
 
@@ -36,6 +36,9 @@ namespace Assets.Scripts.Core
         public SkillReference[] SelectedSkills { get; } = new SkillReference[4];
 
         private Stopwatch mAttackCooldown = Stopwatch.StartNew();
+
+        public int Level { get; private set; }
+        public int Kills { get; private set; }
 
         private Player()
         {
@@ -143,11 +146,13 @@ namespace Assets.Scripts.Core
 
         public override void OnKill(Character target)
         {
-            KillCount++;
-            if (KillCount >= NextLevelKillCount)
+            Kills++;
+            NextSkillKillCount++;
+            if (NextSkillKillCount >= NextLevelKillCount)
             {
-                KillCount = 0;
+                NextSkillKillCount = 0;
                 SkillPoints++;
+                Level++;
                 NextLevelKillCount = (int)(NextLevelKillCount * 1.5);
             }
         }

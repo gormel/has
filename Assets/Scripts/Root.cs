@@ -126,6 +126,7 @@ public class Root : MonoBehaviour
 
     public void GameOver()
     {
+        SavedPlayer = mGame.Player;
         SceneManager.LoadScene(LoseScene);
     }
 }
